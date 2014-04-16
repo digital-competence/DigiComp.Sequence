@@ -12,6 +12,10 @@ use TYPO3\Flow\Annotations as Flow;
 /**
  * A SequenceNumber generator (should be DB-agnostic)
  *
+ *
+ * Thoughts: We could make the step-range configurable, and if > 1 we could return new keys immediately for this request,
+ * as we "reserved" the space between.
+ *
  * @Flow\Scope("singleton")
  */
 class SequenceGenerator {
