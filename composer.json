@@ -1,21 +1,24 @@
 {
-	"name":"digicomp/sequence",
-	"type":"typo3-flow-package",
-	"description":"",
-	"require":{
-        "typo3/flow":"~2.0|~3.0"
-	},
-	"require-dev":{
-		"phpunit/phpunit": "3.7.*"
-	},
-	"autoload":{
-		"psr-0":{
-			"DigiComp\\Sequence":"Classes"
-		}
-	},
+    "name": "digicomp/sequence",
+    "type": "typo3-flow-package",
+    "description": "",
+    "require": {
+        "typo3/flow": "~2.0|~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "DigiComp\\Sequence": "Classes"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
-        }
+        },
+        "applied-flow-migrations": [
+            "Inwebs.Basket-201409170938"
+        ]
     }
 }
