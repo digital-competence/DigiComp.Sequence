@@ -2,6 +2,7 @@
   "name": "digicomp/sequence",
   "type": "typo3-flow-package",
   "description": "Sequence is a very simple database agnostic but database based sequence generator",
+  "keywords": ["Flow", "Neos", "doctrine", "sequnce"],
   "authors": [
     {
       "name": "Ferdinand Kuhl",
