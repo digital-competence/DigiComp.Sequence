@@ -1,7 +1,17 @@
 {
   "name": "digicomp/sequence",
   "type": "typo3-flow-package",
-  "description": "",
+  "description": "Sequence is a very simple database agnostic but database based sequence generator",
+  "authors": [
+    {
+      "name": "Ferdinand Kuhl",
+      "email": "f.kuhl@digital-competence.de",
+      "homepage": "http://www.digital-competence.de",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/digicomp/DigiComp.Sequence",
   "require": {
     "typo3/flow": "~2.0|~3.0"
   },
