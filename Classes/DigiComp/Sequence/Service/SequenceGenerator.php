@@ -47,12 +47,7 @@ class SequenceGenerator
      */
     public function getNextNumberFor($type)
     {
-        if (is_object($type)) {
-            $type = $this->reflectionService->getClassNameByObject($type);
-        }
-        if (!$type) {
-            throw new Exception('No Type given');
-        }
+        $type = $this->inferTypeFromSource($type);
         $count = $this->getLastNumberFor($type);
 
         //TODO: Check for maximal tries, or similar
@@ -89,25 +84,43 @@ class SequenceGenerator
 
     public function advanceTo($to, $type)
     {
+        $type = $this->inferTypeFromSource($type);
         return ($this->validateFreeNumber($to, $type));
     }
 
     /**
-     * @param $type
+     * @param string|object $type
      *
      * @return int
      */
     public function getLastNumberFor($type)
     {
+        $type = $this->inferTypeFromSource($type);
         /** @var $em \Doctrine\ORM\EntityManager */
         $em = $this->entityManager;
 
         $result = $em->getConnection()->executeQuery(
             'SELECT MAX(number) AS count FROM digicomp_sequence_domain_model_insert WHERE type=:type',
-            array('type' => $type)
+            ['type' => $type]
         );
         $count = $result->fetchAll();
         $count = $count[0]['count'];
         return $count;
+    }
+
+    /**
+     * @param string|object $stringOrObject
+     *
+     * @throws Exception
+     * @return string
+     */
+    protected function inferTypeFromSource($stringOrObject) {
+        if (is_object($stringOrObject)) {
+            $stringOrObject = $this->reflectionService->getClassNameByObject($stringOrObject);
+        }
+        if (!$stringOrObject) {
+            throw new Exception('No Type given');
+        }
+        return $stringOrObject;
     }
 }

@@ -7,13 +7,14 @@ namespace DigiComp\Sequence\Command;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Cli\CommandController;
 
 /**
- * A SequenceNumber generator (should be DB-agnostic)
+ * A database agnostic SequenceNumber generator
  *
  * @Flow\Scope("singleton")
  */
-class SequenceCommandController extends \TYPO3\Flow\Cli\CommandController
+class SequenceCommandController extends CommandController
 {
 
     /**
@@ -32,4 +33,6 @@ class SequenceCommandController extends \TYPO3\Flow\Cli\CommandController
     {
         $this->sequenceGenerator->advanceTo($to, $type);
     }
+
+    //TODO: make clean up job to delete all but the biggest number to save resources
 }

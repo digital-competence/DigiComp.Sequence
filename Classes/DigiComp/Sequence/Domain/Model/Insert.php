@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author fcool
  * @Flow\Scope("prototype")
  * @Flow\Entity
+ * @ORM\Table(indexes={@ORM\Index(name="type_idx", columns={"type"})})
  */
 class Insert
 {

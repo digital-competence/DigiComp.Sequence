@@ -1,0 +1,6 @@
+TYPO3:
+  Flow:
+    persistence:
+      backendOptions:
+        driver: 'pdo_sqlite'
+        path: %FLOW_PATH_DATA%/Temporary/testing.db
