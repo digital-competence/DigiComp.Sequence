@@ -6,7 +6,6 @@ namespace DigiComp\Sequence\Command;
  *                                                                        *
  *                                                                        */
 
-use Doctrine\DBAL\DBALException;
 use TYPO3\Flow\Annotations as Flow;
 
 /**
@@ -14,21 +13,23 @@ use TYPO3\Flow\Annotations as Flow;
  *
  * @Flow\Scope("singleton")
  */
-class SequenceCommandController extends \TYPO3\Flow\Cli\CommandController {
+class SequenceCommandController extends \TYPO3\Flow\Cli\CommandController
+{
 
-	/**
-	 * @var \DigiComp\Sequence\Service\SequenceGenerator
-	 * @Flow\Inject
-	 */
-	protected $sequenceGenerator;
+    /**
+     * @var \DigiComp\Sequence\Service\SequenceGenerator
+     * @Flow\Inject
+     */
+    protected $sequenceGenerator;
 
-	/**
-	 * Sets minimum number for sequence generator
-	 *
-	 * @param int $to
-	 * @param string $type
-	 */
-	public function advanceCommand($to, $type) {
-		$this->sequenceGenerator->advanceTo($to, $type);
-	}
+    /**
+     * Sets minimum number for sequence generator
+     *
+     * @param int    $to
+     * @param string $type
+     */
+    public function advanceCommand($to, $type)
+    {
+        $this->sequenceGenerator->advanceTo($to, $type);
+    }
 }

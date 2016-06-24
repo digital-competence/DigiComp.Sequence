@@ -7,9 +7,11 @@ namespace DigiComp\Sequence\Service;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+
 /**
  * SequenceException
  */
-class Exception extends \Exception {
+class Exception extends \Exception
+{
 
 }
