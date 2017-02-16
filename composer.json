@@ -14,7 +14,7 @@
   "license": "MIT",
   "homepage": "https://github.com/digicomp/DigiComp.Sequence",
   "require": {
-    "typo3/flow": "~2.0|~3.0"
+    "neos/flow": "~4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "3.7.*",
@@ -27,7 +27,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "1.1.x-dev"
+      "dev-master": "1.1.x-dev",
+      "dev-feature/neos-flow4": "2.0.x-dev"
     },
     "applied-flow-migrations": [
       "Inwebs.Basket-201409170938",
