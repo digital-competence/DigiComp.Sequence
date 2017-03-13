@@ -1,13 +1,9 @@
 <?php
 namespace DigiComp\Sequence\Command;
 
-/*                                                                        *
- * This script belongs to the FLOW3 package "DigiComp.Sequence".          *
- *                                                                        *
- *                                                                        */
-
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Cli\CommandController;
+use DigiComp\Sequence\Service\SequenceGenerator;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\CommandController;
 
 /**
  * A database agnostic SequenceNumber generator
@@ -16,9 +12,8 @@ use TYPO3\Flow\Cli\CommandController;
  */
 class SequenceCommandController extends CommandController
 {
-
     /**
-     * @var \DigiComp\Sequence\Service\SequenceGenerator
+     * @var SequenceGenerator
      * @Flow\Inject
      */
     protected $sequenceGenerator;
@@ -26,7 +21,7 @@ class SequenceCommandController extends CommandController
     /**
      * Sets minimum number for sequence generator
      *
-     * @param int    $to
+     * @param int $to
      * @param string $type
      */
     public function advanceCommand($to, $type)
@@ -34,5 +29,5 @@ class SequenceCommandController extends CommandController
         $this->sequenceGenerator->advanceTo($to, $type);
     }
 
-    //TODO: make clean up job to delete all but the biggest number to save resources
+    // TODO: make clean up job to delete all but the biggest number to save resources
 }

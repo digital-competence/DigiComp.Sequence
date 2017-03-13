@@ -2,11 +2,13 @@
 namespace DigiComp\Sequence\Tests\Functional;
 
 use DigiComp\Sequence\Service\SequenceGenerator;
-use TYPO3\Flow\Tests\FunctionalTestCase;
+use Neos\Flow\Tests\FunctionalTestCase;
 
 class SequenceTest extends FunctionalTestCase
 {
-
+    /**
+     * @var bool
+     */
     protected static $testablePersistenceEnabled = true;
 
     /**
@@ -20,12 +22,13 @@ class SequenceTest extends FunctionalTestCase
         $this->assertEquals(0, $number);
         $this->assertEquals(1, $sequenceGenerator->getNextNumberFor($sequenceGenerator));
 
-        $pids = [];
+        $pIds = [];
         for ($i = 0; $i < 10; $i++) {
-            $pid = pcntl_fork();
-            if ($pid) {
-                $pids[] = $pid;
-            } else {
+            $pId = pcntl_fork();
+            if ($pId) {
+                $pIds[] = $pId;
+            }
+            else {
                 for ($j = 0; $j < 10; $j++) {
                     $sequenceGenerator->getNextNumberFor($sequenceGenerator);
                 }
@@ -33,10 +36,12 @@ class SequenceTest extends FunctionalTestCase
                 exit;
             }
         }
-        foreach ($pids as $pid) {
+
+        foreach ($pIds as $pId) {
             $status = 0;
-            pcntl_waitpid($pid, $status);
+            pcntl_waitpid($pId, $status);
         }
+
         $this->assertEquals(101, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
     }
 
