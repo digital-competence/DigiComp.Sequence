@@ -1,51 +1,57 @@
 {
-  "name": "digicomp/sequence",
-  "type": "neos-package",
-  "description": "Sequence is a very simple database agnostic but database based sequence generator",
-  "keywords": ["flow", "neos", "doctrine", "sequence"],
-  "authors": [
-    {
-      "name": "Ferdinand Kuhl",
-      "email": "f.kuhl@digital-competence.de",
-      "homepage": "http://www.digital-competence.de",
-      "role": "Developer"
-    }
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/digicomp/DigiComp.Sequence",
-  "require": {
-    "neos/flow": "~4.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "3.7.*",
-    "ext-pcntl": "*"
-  },
-  "autoload": {
-    "psr-0": {
-      "DigiComp\\Sequence": "Classes"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.1.x-dev",
-      "dev-feature/neos-flow4": "2.0.x-dev"
+    "name": "digicomp/sequence",
+    "type": "neos-package",
+    "description": "Sequence is a very simple database agnostic but database based sequence generator",
+    "keywords": [
+        "flow",
+        "neos",
+        "doctrine",
+        "sequence"
+    ],
+    "authors": [
+        {
+            "name": "Ferdinand Kuhl",
+            "email": "f.kuhl@digital-competence.de",
+            "homepage": "http://www.digital-competence.de",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/digicomp/DigiComp.Sequence",
+    "require": {
+        "neos/flow": "~4.0"
     },
-    "applied-flow-migrations": [
-      "Inwebs.Basket-201409170938",
-      "TYPO3.FLOW3-201201261636",
-      "TYPO3.Fluid-201205031303",
-      "TYPO3.FLOW3-201205292145",
-      "TYPO3.FLOW3-201206271128",
-      "TYPO3.FLOW3-201209201112",
-      "TYPO3.Flow-201209251426",
-      "TYPO3.Flow-201211151101",
-      "TYPO3.Flow-201212051340",
-      "TYPO3.Flow-201310031523",
-      "TYPO3.Flow-201405111147",
-      "TYPO3.Fluid-20141113120800",
-      "TYPO3.Flow-20141113121400",
-      "TYPO3.Fluid-20141121091700",
-      "TYPO3.Fluid-20150214130800"
-    ]
-  }
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "ext-pcntl": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "DigiComp\\Sequence": "Classes"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev",
+            "dev-feature/neos-flow4": "2.0.x-dev"
+        },
+        "applied-flow-migrations": [
+            "Inwebs.Basket-201409170938",
+            "TYPO3.FLOW3-201201261636",
+            "TYPO3.Fluid-201205031303",
+            "TYPO3.FLOW3-201205292145",
+            "TYPO3.FLOW3-201206271128",
+            "TYPO3.FLOW3-201209201112",
+            "TYPO3.Flow-201209251426",
+            "TYPO3.Flow-201211151101",
+            "TYPO3.Flow-201212051340",
+            "TYPO3.Flow-201310031523",
+            "TYPO3.Flow-201405111147",
+            "TYPO3.Fluid-20141113120800",
+            "TYPO3.Flow-20141113121400",
+            "TYPO3.Fluid-20141121091700",
+            "TYPO3.Fluid-20150214130800",
+            "TYPO3.Flow-20151113161300"
+        ]
+    }
 }
