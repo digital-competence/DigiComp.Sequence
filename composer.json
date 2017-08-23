@@ -26,8 +26,8 @@
         "ext-pcntl": "*"
     },
     "autoload": {
-        "psr-0": {
-            "DigiComp\\Sequence": "Classes"
+        "psr-4": {
+            "DigiComp\\Sequence\\": "Classes"
         }
     },
     "extra": {
