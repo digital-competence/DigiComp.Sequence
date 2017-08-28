@@ -1,13 +1,8 @@
 <?php
 namespace DigiComp\Sequence\Domain\Model;
 
-/*                                                                        *
- * This script belongs to the FLOW3 package "DigiComp.Sequence".          *
- *                                                                        *
- *                                                                        */
-
-use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * SequenceInsert
@@ -19,37 +14,28 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Insert
 {
-
     /**
      * @var int
-     * @ORM\Id
      * @Flow\Identity
+     * @ORM\Id
      */
     protected $number;
 
     /**
      * @var string
-     * @ORM\Id
      * @Flow\Identity
+     * @ORM\Id
      */
     protected $type;
 
     /**
-     * @param int    $number
+     * @param int $number
      * @param string|object $type
      */
     public function __construct($number, $type)
     {
-        $this->setType($type);
         $this->setNumber($number);
-    }
-
-    /**
-     * @param int $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
+        $this->setType($type);
     }
 
     /**
@@ -61,14 +47,11 @@ class Insert
     }
 
     /**
-     * @param string|object $type
+     * @param int $number
      */
-    public function setType($type)
+    public function setNumber($number)
     {
-        if (is_object($type)) {
-            $type = get_class($type);
-        }
-        $this->type = $type;
+        $this->number = $number;
     }
 
     /**
@@ -77,5 +60,16 @@ class Insert
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param string|object $type
+     */
+    public function setType($type)
+    {
+        if (is_object($type)) {
+            $type = get_class($type);
+        }
+        $this->type = $type;
     }
 }
