@@ -32,8 +32,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev",
-            "dev-feature/neos-flow4": "2.0.x-dev"
+            "dev-version/1.x-dev": "1.1.x-dev",
+            "dev-develop": "2.0.x-dev"
         },
         "applied-flow-migrations": [
             "Inwebs.Basket-201409170938",
