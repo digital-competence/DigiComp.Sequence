@@ -40,8 +40,6 @@ class SequenceGenerator
     /**
      * @param string|object $type
      *
-     * @throws Exception
-     *
      * @return int
      */
     public function getNextNumberFor($type)
@@ -79,8 +77,7 @@ class SequenceGenerator
         } catch (DBALException $e) {
             if ($e->getPrevious() && $e->getPrevious() instanceof \PDOException) {
                 // Do nothing, new Doctrine handling hides the above error
-            }
-            else {
+            } else {
                 $this->systemLogger->logException($e);
             }
         } catch (\Exception $e) {
@@ -126,9 +123,8 @@ class SequenceGenerator
     /**
      * @param string|object $stringOrObject
      *
-     * @throws Exception
-     *
      * @return string
+     * @throws Exception
      */
     protected function inferTypeFromSource($stringOrObject)
     {
