@@ -112,9 +112,9 @@ class SequenceGenerator
         $em = $this->entityManager;
 
         return $em->getConnection()->executeQuery(
-            'SELECT MAX(number) AS count FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type=:type',
+            'SELECT MAX(number) FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
-        )->fetchAll()[0]['count'];
+        )->fetchAll(\PDO::FETCH_COLUMN)[0];
     }
 
     /**
