@@ -1,6 +1,7 @@
 <?php
 namespace DigiComp\Sequence\Service;
 
+use DigiComp\Sequence\Domain\Model\Insert;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
@@ -68,7 +69,7 @@ class SequenceGenerator
         $em = $this->entityManager;
         try {
             $em->getConnection()->insert(
-                'digicomp_sequence_domain_model_insert',
+                $em->getClassMetadata(Insert::class)->getTableName(),
                 ['number' => $count, 'type' => $type]
             );
             return true;
@@ -111,7 +112,7 @@ class SequenceGenerator
         $em = $this->entityManager;
 
         return $em->getConnection()->executeQuery(
-            'SELECT MAX(number) AS count FROM digicomp_sequence_domain_model_insert WHERE type=:type',
+            'SELECT MAX(number) AS count FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type=:type',
             ['type' => $this->inferTypeFromSource($type)]
         )->fetchAll()[0]['count'];
     }
