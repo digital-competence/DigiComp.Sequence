@@ -110,14 +110,10 @@ class SequenceGenerator
         /** @var EntityManager $em */
         $em = $this->entityManager;
 
-        $result = $em->getConnection()->executeQuery(
+        return $em->getConnection()->executeQuery(
             'SELECT MAX(number) AS count FROM digicomp_sequence_domain_model_insert WHERE type=:type',
             ['type' => $this->inferTypeFromSource($type)]
-        );
-        $count = $result->fetchAll();
-        $count = $count[0]['count'];
-
-        return $count;
+        )->fetchAll()[0]['count'];
     }
 
     /**
