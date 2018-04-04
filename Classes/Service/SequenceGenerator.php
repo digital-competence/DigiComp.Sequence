@@ -97,7 +97,7 @@ class SequenceGenerator
     {
         $type = $this->inferTypeFromSource($type);
 
-        return ($this->validateFreeNumber($to, $type));
+        return $this->validateFreeNumber($to, $type);
     }
 
     /**
