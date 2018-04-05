@@ -65,7 +65,7 @@ class SequenceGenerator
      */
     protected function validateFreeNumber($count, $type)
     {
-        /** @var EntityManager $em */
+        /* @var EntityManager $em */
         $em = $this->entityManager;
         try {
             $em->getConnection()->insert(
@@ -108,7 +108,7 @@ class SequenceGenerator
      */
     public function getLastNumberFor($type)
     {
-        /** @var EntityManager $em */
+        /* @var EntityManager $em */
         $em = $this->entityManager;
 
         return $em->getConnection()->executeQuery(
