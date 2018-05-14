@@ -1,6 +1,7 @@
 <?php
 namespace DigiComp\Sequence\Service;
 
+use DigiComp\Sequence\Domain\Model\Insert;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
@@ -40,8 +41,6 @@ class SequenceGenerator
     /**
      * @param string|object $type
      *
-     * @throws Exception
-     *
      * @return int
      */
     public function getNextNumberFor($type)
@@ -66,11 +65,11 @@ class SequenceGenerator
      */
     protected function validateFreeNumber($count, $type)
     {
-        /** @var $em EntityManager */
+        /* @var EntityManager $em */
         $em = $this->entityManager;
         try {
             $em->getConnection()->insert(
-                'digicomp_sequence_domain_model_insert',
+                $em->getClassMetadata(Insert::class)->getTableName(),
                 ['number' => $count, 'type' => $type]
             );
             return true;
@@ -79,8 +78,7 @@ class SequenceGenerator
         } catch (DBALException $e) {
             if ($e->getPrevious() && $e->getPrevious() instanceof \PDOException) {
                 // Do nothing, new Doctrine handling hides the above error
-            }
-            else {
+            } else {
                 $this->systemLogger->logException($e);
             }
         } catch (\Exception $e) {
@@ -100,7 +98,7 @@ class SequenceGenerator
     {
         $type = $this->inferTypeFromSource($type);
 
-        return ($this->validateFreeNumber($to, $type));
+        return $this->validateFreeNumber($to, $type);
     }
 
     /**
@@ -110,25 +108,20 @@ class SequenceGenerator
      */
     public function getLastNumberFor($type)
     {
-        /** @var $em EntityManager */
+        /* @var EntityManager $em */
         $em = $this->entityManager;
 
-        $result = $em->getConnection()->executeQuery(
-            'SELECT MAX(number) AS count FROM digicomp_sequence_domain_model_insert WHERE type=:type',
+        return $em->getConnection()->executeQuery(
+            'SELECT MAX(number) FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
-        );
-        $count = $result->fetchAll();
-        $count = $count[0]['count'];
-
-        return $count;
+        )->fetchAll(\PDO::FETCH_COLUMN)[0];
     }
 
     /**
      * @param string|object $stringOrObject
      *
-     * @throws Exception
-     *
      * @return string
+     * @throws Exception
      */
     protected function inferTypeFromSource($stringOrObject)
     {
