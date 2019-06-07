@@ -14,7 +14,7 @@ Usage is quite simple also:
 	{
 		$this->orderId = $sequenceNumberGenerator->getNextNumberFor($this);		
 	}
-	
+
 ``getNextNumberFor`` allows you to give an object which will be resolved to its FQCN or a custom sequence name.
 
 The CommandController helps you to advance the current sequence number, in case of migrations or similar.
