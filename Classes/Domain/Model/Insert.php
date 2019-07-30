@@ -8,7 +8,6 @@ use Neos\Flow\Annotations as Flow;
  * SequenceInsert
  *
  * @author fcool
- * @Flow\Scope("prototype")
  * @Flow\Entity
  * @ORM\Table(indexes={@ORM\Index(name="type_idx", columns={"type"})})
  */
