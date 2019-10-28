@@ -29,6 +29,7 @@ class SequenceGenerator
     /**
      * @var ReflectionService
      * @Flow\Inject
+     * @deprecated
      */
     protected $reflectionService;
 
