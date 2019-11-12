@@ -21,7 +21,7 @@ class Version20140505093853 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql");
 
         $this->addSql(
-            "CREATE TABLE digicomp_sequence_domain_model_insert (number INT NOT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(number, type)) ENGINE = InnoDB"
+            "CREATE TABLE digicomp_sequence_domain_model_insert (number INT NOT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(number, type))"
         );
     }
 
