@@ -19,7 +19,7 @@
     "license": "MIT",
     "homepage": "https://github.com/digicomp/DigiComp.Sequence",
     "require": {
-        "neos/flow": "~4.1"
+        "neos/flow": "~4.1|~5.3"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
@@ -66,7 +66,8 @@
             "Neos.Media-20161219094126",
             "Neos.Flow-20170125103800",
             "Neos.Flow-20170127183102",
-            "DigiComp.SettingValidator-20170603120900"
+            "DigiComp.SettingValidator-20170603120900",
+            "Neos.Flow-20180415105700"
         ]
     }
 }
