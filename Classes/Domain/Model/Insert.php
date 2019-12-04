@@ -7,9 +7,10 @@ use Neos\Flow\Annotations as Flow;
 /**
  * SequenceInsert
  *
- * @author fcool
  * @Flow\Entity
- * @ORM\Table(indexes={@ORM\Index(name="type_idx", columns={"type"})})
+ * @ORM\Table(indexes={
+ *     @ORM\Index(name="type_idx", columns={"type"})
+ * })
  */
 class Insert
 {

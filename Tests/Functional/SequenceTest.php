@@ -32,7 +32,7 @@ class SequenceTest extends FunctionalTestCase
                 for ($j = 0; $j < 10; $j++) {
                     $sequenceGenerator->getNextNumberFor($sequenceGenerator);
                 }
-                //making a hard exit to avoid phpunit having the tables cleaned up again
+                // making a hard exit to avoid phpunit having the tables cleaned up again
                 exit;
             }
         }
