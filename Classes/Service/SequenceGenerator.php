@@ -77,9 +77,7 @@ class SequenceGenerator
         } catch (\PDOException $e) {
             return false;
         } catch (DBALException $e) {
-            if ($e->getPrevious() && $e->getPrevious() instanceof \PDOException) {
-                // Do nothing, new Doctrine handling hides the above error
-            } else {
+            if (! $e->getPrevious() instanceof \PDOException) {
                 $this->systemLogger->logException($e);
             }
         } catch (\Exception $e) {

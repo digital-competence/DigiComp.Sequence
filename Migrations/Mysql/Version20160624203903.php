@@ -5,8 +5,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs! This block will be used as the migration description if
- * getDescription() is not used.
+ * Auto-generated Migration: Please modify to your needs! This block will be used as the migration description if getDescription() is not used.
  */
 class Version20160624203903 extends AbstractMigration
 {
@@ -21,7 +20,6 @@ class Version20160624203903 extends AbstractMigration
 
     /**
      * @param Schema $schema
-     *
      * @return void
      */
     public function up(Schema $schema)
@@ -37,7 +35,6 @@ class Version20160624203903 extends AbstractMigration
 
     /**
      * @param Schema $schema
-     *
      * @return void
      */
     public function down(Schema $schema)
