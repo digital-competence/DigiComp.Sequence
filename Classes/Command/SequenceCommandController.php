@@ -1,4 +1,5 @@
 <?php
+
 namespace DigiComp\Sequence\Command;
 
 use DigiComp\Sequence\Service\SequenceGenerator;

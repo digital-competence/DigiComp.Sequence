@@ -1,4 +1,5 @@
 <?php
+
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;

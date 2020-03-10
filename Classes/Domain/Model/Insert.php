@@ -1,4 +1,5 @@
 <?php
+
 namespace DigiComp\Sequence\Domain\Model;
 
 use Doctrine\ORM\Mapping as ORM;
