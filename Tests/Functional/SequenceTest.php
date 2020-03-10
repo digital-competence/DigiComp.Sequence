@@ -1,4 +1,5 @@
 <?php
+
 namespace DigiComp\Sequence\Tests\Functional;
 
 use DigiComp\Sequence\Service\SequenceGenerator;
@@ -27,8 +28,7 @@ class SequenceTest extends FunctionalTestCase
             $pId = pcntl_fork();
             if ($pId) {
                 $pIds[] = $pId;
-            }
-            else {
+            } else {
                 for ($j = 0; $j < 10; $j++) {
                     $sequenceGenerator->getNextNumberFor($sequenceGenerator);
                 }
