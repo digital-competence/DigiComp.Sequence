@@ -7,13 +7,13 @@ integrity of the database of your choice.
 
 Usage is quite simple also:
 
-	/**
-	 * @param \DigiComp\Sequence\Service\SequenceNumberGenerator $sequenceNumberGenerator
-	 */
-	public function __construct(SequenceNumberGenerator $sequenceNumberGenerator) 
-	{
-		$this->orderId = $sequenceNumberGenerator->getNextNumberFor($this);		
-	}
+    /**
+     * @param \DigiComp\Sequence\Service\SequenceNumberGenerator $sequenceNumberGenerator
+     */
+    public function __construct(SequenceNumberGenerator $sequenceNumberGenerator) 
+    {
+        $this->orderId = $sequenceNumberGenerator->getNextNumberFor($this);        
+    }
 
 ``getNextNumberFor`` allows you to give an object which will be resolved to its FQCN or a custom sequence name.
 
