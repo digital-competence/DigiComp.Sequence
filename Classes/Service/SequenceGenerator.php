@@ -42,7 +42,6 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
-     *
      * @return int
      */
     public function getNextNumberFor($type)
@@ -62,7 +61,6 @@ class SequenceGenerator
     /**
      * @param int $count
      * @param string|object $type
-     *
      * @return bool
      */
     protected function validateFreeNumber($count, $type)
@@ -91,7 +89,6 @@ class SequenceGenerator
     /**
      * @param int $to
      * @param string|object $type
-     *
      * @return bool
      */
     public function advanceTo($to, $type)
@@ -103,7 +100,6 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
-     *
      * @return int
      */
     public function getLastNumberFor($type)
@@ -119,7 +115,6 @@ class SequenceGenerator
 
     /**
      * @param string|object $stringOrObject
-     *
      * @return string
      * @throws Exception
      */
