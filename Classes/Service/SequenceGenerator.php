@@ -3,13 +3,12 @@
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
-use Neos\Flow\Reflection\ReflectionService;
 use Neos\Utility\TypeHandling;
+use Psr\Log\LoggerInterface;
 
 /**
  * A SequenceNumber generator working for transactional databases
@@ -22,21 +21,14 @@ use Neos\Utility\TypeHandling;
 class SequenceGenerator
 {
     /**
-     * @var ObjectManager
      * @Flow\Inject
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
-     * @var ReflectionService
      * @Flow\Inject
-     * @deprecated
-     */
-    protected $reflectionService;
-
-    /**
-     * @var SystemLoggerInterface
-     * @Flow\Inject
+     * @var LoggerInterface
      */
     protected $systemLogger;
 
@@ -77,10 +69,10 @@ class SequenceGenerator
             return false;
         } catch (DBALException $e) {
             if (! $e->getPrevious() instanceof \PDOException) {
-                $this->systemLogger->logException($e);
+                $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
-            $this->systemLogger->logException($e);
+            $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
         }
 
         return false;
