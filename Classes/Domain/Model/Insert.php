@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DigiComp\Sequence\Domain\Model;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -20,20 +22,20 @@ class Insert
      * @Flow\Identity
      * @ORM\Id
      */
-    protected $number;
+    protected int $number;
 
     /**
      * @var string
      * @Flow\Identity
      * @ORM\Id
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @param int $number
      * @param string|object $type
      */
-    public function __construct($number, $type)
+    public function __construct(int $number, $type)
     {
         $this->setNumber($number);
         $this->setType($type);
@@ -42,7 +44,7 @@ class Insert
     /**
      * @return int
      */
-    public function getNumber()
+    public function getNumber(): int
     {
         return $this->number;
     }
@@ -50,7 +52,7 @@ class Insert
     /**
      * @param int $number
      */
-    public function setNumber($number)
+    public function setNumber(int $number): void
     {
         $this->number = $number;
     }
@@ -58,7 +60,7 @@ class Insert
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -66,7 +68,7 @@ class Insert
     /**
      * @param string|object $type
      */
-    public function setType($type)
+    public function setType($type): void
     {
         if (is_object($type)) {
             $type = get_class($type);

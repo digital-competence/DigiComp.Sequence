@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
@@ -36,7 +38,7 @@ class SequenceGenerator
      * @param string|object $type
      * @return int
      */
-    public function getNextNumberFor($type)
+    public function getNextNumberFor($type): int
     {
         $type = $this->inferTypeFromSource($type);
         $count = $this->getLastNumberFor($type);
@@ -55,7 +57,7 @@ class SequenceGenerator
      * @param string|object $type
      * @return bool
      */
-    protected function validateFreeNumber($count, $type)
+    protected function validateFreeNumber(int $count, $type)
     {
         /* @var EntityManager $em */
         $em = $this->entityManager;
@@ -83,7 +85,7 @@ class SequenceGenerator
      * @param string|object $type
      * @return bool
      */
-    public function advanceTo($to, $type)
+    public function advanceTo(int $to, $type): bool
     {
         $type = $this->inferTypeFromSource($type);
 
@@ -94,12 +96,12 @@ class SequenceGenerator
      * @param string|object $type
      * @return int
      */
-    public function getLastNumberFor($type)
+    public function getLastNumberFor($type): int
     {
         /* @var EntityManager $em */
         $em = $this->entityManager;
 
-        return $em->getConnection()->executeQuery(
+        return (int) $em->getConnection()->executeQuery(
             'SELECT MAX(number) FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
         )->fetchAll(\PDO::FETCH_COLUMN)[0];
@@ -110,7 +112,7 @@ class SequenceGenerator
      * @return string
      * @throws Exception
      */
-    protected function inferTypeFromSource($stringOrObject)
+    protected function inferTypeFromSource($stringOrObject): string
     {
         if (is_object($stringOrObject)) {
             $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
