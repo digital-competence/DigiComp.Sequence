@@ -27,7 +27,7 @@ class SequenceCommandController extends CommandController
      * @param int $to
      * @param string $type
      */
-    public function advanceCommand($to, $type)
+    public function advanceCommand(int $to, string $type): void
     {
         $this->sequenceGenerator->advanceTo($to, $type);
     }

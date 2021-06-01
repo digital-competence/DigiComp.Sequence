@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
-use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Utility\TypeHandling;
@@ -36,7 +35,10 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
+     *
      * @return int
+     * @throws Exception
+     * @throws DBALException
      */
     public function getNextNumberFor($type): int
     {
@@ -54,12 +56,11 @@ class SequenceGenerator
 
     /**
      * @param int $count
-     * @param string|object $type
+     * @param string $type
      * @return bool
      */
-    protected function validateFreeNumber(int $count, $type)
+    protected function validateFreeNumber(int $count, string $type): bool
     {
-        /* @var EntityManager $em */
         $em = $this->entityManager;
         try {
             $em->getConnection()->insert(
@@ -83,7 +84,9 @@ class SequenceGenerator
     /**
      * @param int $to
      * @param string|object $type
+     *
      * @return bool
+     * @throws Exception
      */
     public function advanceTo(int $to, $type): bool
     {
@@ -94,15 +97,17 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
+     *
      * @return int
+     * @throws Exception
+     * @throws DBALException
      */
     public function getLastNumberFor($type): int
     {
-        /* @var EntityManager $em */
-        $em = $this->entityManager;
-
-        return (int) $em->getConnection()->executeQuery(
-            'SELECT MAX(number) FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type = :type',
+        return (int) $this->entityManager->getConnection()->executeQuery(
+            'SELECT MAX(number) FROM '
+                . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
+                . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
         )->fetchAll(\PDO::FETCH_COLUMN)[0];
     }
