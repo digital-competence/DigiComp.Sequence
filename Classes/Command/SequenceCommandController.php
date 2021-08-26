@@ -18,8 +18,8 @@ use Neos\Flow\Cli\CommandController;
 class SequenceCommandController extends CommandController
 {
     /**
-     * @var SequenceGenerator
      * @Flow\Inject
+     * @var SequenceGenerator
      */
     protected $sequenceGenerator;
 

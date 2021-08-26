@@ -119,7 +119,7 @@ class SequenceGenerator
      */
     protected function inferTypeFromSource($stringOrObject): string
     {
-        if (is_object($stringOrObject)) {
+        if (\is_object($stringOrObject)) {
             $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
         }
         if (! $stringOrObject) {
