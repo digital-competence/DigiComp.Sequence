@@ -1,15 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\EntityManager;
+use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
-use Neos\Flow\Reflection\ReflectionService;
 use Neos\Utility\TypeHandling;
+use Psr\Log\LoggerInterface;
 
 /**
  * A SequenceNumber generator working for transactional databases
@@ -22,29 +22,25 @@ use Neos\Utility\TypeHandling;
 class SequenceGenerator
 {
     /**
-     * @var ObjectManager
      * @Flow\Inject
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
-     * @var ReflectionService
      * @Flow\Inject
-     * @deprecated
-     */
-    protected $reflectionService;
-
-    /**
-     * @var SystemLoggerInterface
-     * @Flow\Inject
+     * @var LoggerInterface
      */
     protected $systemLogger;
 
     /**
      * @param string|object $type
+     *
      * @return int
+     * @throws Exception
+     * @throws DBALException
      */
-    public function getNextNumberFor($type)
+    public function getNextNumberFor($type): int
     {
         $type = $this->inferTypeFromSource($type);
         $count = $this->getLastNumberFor($type);
@@ -60,12 +56,11 @@ class SequenceGenerator
 
     /**
      * @param int $count
-     * @param string|object $type
+     * @param string $type
      * @return bool
      */
-    protected function validateFreeNumber($count, $type)
+    protected function validateFreeNumber(int $count, string $type): bool
     {
-        /* @var EntityManager $em */
         $em = $this->entityManager;
         try {
             $em->getConnection()->insert(
@@ -77,10 +72,10 @@ class SequenceGenerator
             return false;
         } catch (DBALException $e) {
             if (! $e->getPrevious() instanceof \PDOException) {
-                $this->systemLogger->logException($e);
+                $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
-            $this->systemLogger->logException($e);
+            $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
         }
 
         return false;
@@ -89,9 +84,11 @@ class SequenceGenerator
     /**
      * @param int $to
      * @param string|object $type
+     *
      * @return bool
+     * @throws Exception
      */
-    public function advanceTo($to, $type)
+    public function advanceTo(int $to, $type): bool
     {
         $type = $this->inferTypeFromSource($type);
 
@@ -100,15 +97,17 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
+     *
      * @return int
+     * @throws Exception
+     * @throws DBALException
      */
-    public function getLastNumberFor($type)
+    public function getLastNumberFor($type): int
     {
-        /* @var EntityManager $em */
-        $em = $this->entityManager;
-
-        return $em->getConnection()->executeQuery(
-            'SELECT MAX(number) FROM ' . $em->getClassMetadata(Insert::class)->getTableName() . ' WHERE type = :type',
+        return (int) $this->entityManager->getConnection()->executeQuery(
+            'SELECT MAX(number) FROM '
+                . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
+                . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
         )->fetchAll(\PDO::FETCH_COLUMN)[0];
     }
@@ -118,9 +117,9 @@ class SequenceGenerator
      * @return string
      * @throws Exception
      */
-    protected function inferTypeFromSource($stringOrObject)
+    protected function inferTypeFromSource($stringOrObject): string
     {
-        if (is_object($stringOrObject)) {
+        if (\is_object($stringOrObject)) {
             $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
         }
         if (! $stringOrObject) {
