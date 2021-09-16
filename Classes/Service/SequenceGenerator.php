@@ -106,8 +106,8 @@ class SequenceGenerator
     {
         return (int) $this->entityManager->getConnection()->executeQuery(
             'SELECT MAX(number) FROM '
-                . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
-                . ' WHERE type = :type',
+            . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
+            . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
         )->fetchAll(\PDO::FETCH_COLUMN)[0];
     }
