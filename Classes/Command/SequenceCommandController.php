@@ -51,7 +51,7 @@ class SequenceCommandController extends CommandController
                 ->createQuery('SELECT i.type, MAX(i.number) max_number FROM ' . Insert::class . ' i GROUP BY i.type')
                 ->getScalarResult();
             foreach ($results as $result) {
-                $cleanArray[$result['type']] = (int) $result['max_number'];
+                $cleanArray[$result['type']] = (int)$result['max_number'];
             }
         } else {
             foreach ($typesToClean as $typeToClean) {

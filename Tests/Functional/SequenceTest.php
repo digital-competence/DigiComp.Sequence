@@ -25,7 +25,7 @@ class SequenceTest extends FunctionalTestCase
 
         $pIds = [];
         for ($i = 0; $i < 10; $i++) {
-            $pId = pcntl_fork();
+            $pId = \pcntl_fork();
             if ($pId) {
                 $pIds[] = $pId;
             } else {
@@ -39,7 +39,7 @@ class SequenceTest extends FunctionalTestCase
 
         foreach ($pIds as $pId) {
             $status = 0;
-            pcntl_waitpid($pId, $status);
+            \pcntl_waitpid($pId, $status);
         }
 
         $this->assertEquals(101, $sequenceGenerator->getLastNumberFor($sequenceGenerator));

@@ -49,7 +49,7 @@ class SequenceGenerator
         // TODO: Let increment be configurable per type
         do {
             $count++;
-        } while (! $this->validateFreeNumber($count, $type));
+        } while (!$this->validateFreeNumber($count, $type));
 
         return $count;
     }
@@ -71,7 +71,7 @@ class SequenceGenerator
         } catch (\PDOException $e) {
             return false;
         } catch (DBALException $e) {
-            if (! $e->getPrevious() instanceof \PDOException) {
+            if (!$e->getPrevious() instanceof \PDOException) {
                 $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
@@ -104,7 +104,7 @@ class SequenceGenerator
      */
     public function getLastNumberFor($type): int
     {
-        return (int) $this->entityManager->getConnection()->executeQuery(
+        return (int)$this->entityManager->getConnection()->executeQuery(
             'SELECT MAX(number) FROM '
             . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
             . ' WHERE type = :type',
@@ -122,7 +122,7 @@ class SequenceGenerator
         if (\is_object($stringOrObject)) {
             $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
         }
-        if (! $stringOrObject) {
+        if (!$stringOrObject) {
             throw new Exception('No Type given');
         }
 
