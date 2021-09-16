@@ -46,7 +46,7 @@ class SequenceCommandController extends CommandController
     public function cleanSequenceInsertsCommand(array $typesToClean = [])
     {
         $cleanArray = [];
-        if (empty($typesToClean)) {
+        if ($typesToClean === []) {
             $results = $this->entityManager
                 ->createQuery('SELECT i.type, MAX(i.number) max_number FROM ' . Insert::class . ' i GROUP BY i.type')
                 ->getScalarResult();
