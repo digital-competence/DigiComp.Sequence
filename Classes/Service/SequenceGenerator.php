@@ -31,7 +31,7 @@ class SequenceGenerator
      * @Flow\Inject
      * @var LoggerInterface
      */
-    protected $systemLogger;
+    protected $logger;
 
     /**
      * @param string|object $type
@@ -72,10 +72,10 @@ class SequenceGenerator
             return false;
         } catch (DBALException $e) {
             if (!$e->getPrevious() instanceof \PDOException) {
-                $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
+                $this->logger->critical('Exception occured: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
-            $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
+            $this->logger->critical('Exception occured: ' . $e->getMessage());
         }
 
         return false;
