@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
-use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Utility\TypeHandling;
@@ -35,10 +35,9 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
-     *
      * @return int
      * @throws Exception
-     * @throws DBALException
+     * @throws DoctrineDBALException
      */
     public function getNextNumberFor($type): int
     {
@@ -70,7 +69,7 @@ class SequenceGenerator
             return true;
         } catch (\PDOException $e) {
             return false;
-        } catch (DBALException $e) {
+        } catch (DoctrineDBALException $e) {
             if (!$e->getPrevious() instanceof \PDOException) {
                 $this->logger->critical('Exception occured: ' . $e->getMessage());
             }
@@ -97,10 +96,9 @@ class SequenceGenerator
 
     /**
      * @param string|object $type
-     *
      * @return int
      * @throws Exception
-     * @throws DBALException
+     * @throws DoctrineDBALException
      */
     public function getLastNumberFor($type): int
     {
