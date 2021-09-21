@@ -2,18 +2,24 @@
 
 namespace DigiComp\Sequence\Tests\Functional;
 
+use DigiComp\Sequence\Service\Exception as DigiCompSequenceServiceException;
 use DigiComp\Sequence\Service\SequenceGenerator;
+use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
+use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Neos\Flow\Tests\FunctionalTestCase;
 
 class SequenceTest extends FunctionalTestCase
 {
     /**
-     * @var bool
+     * @inheritDoc
      */
     protected static $testablePersistenceEnabled = true;
 
     /**
      * @test
+     * @throws DigiCompSequenceServiceException
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
      */
     public function sequenceTest()
     {
@@ -47,6 +53,9 @@ class SequenceTest extends FunctionalTestCase
 
     /**
      * @test
+     * @throws DigiCompSequenceServiceException
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
      */
     public function advanceTest()
     {

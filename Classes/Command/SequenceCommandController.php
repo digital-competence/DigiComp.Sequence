@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace DigiComp\Sequence\Command;
 
 use DigiComp\Sequence\Domain\Model\Insert;
+use DigiComp\Sequence\Service\Exception as DigiCompSequenceServiceException;
 use DigiComp\Sequence\Service\SequenceGenerator;
+use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
+use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
@@ -34,6 +37,7 @@ class SequenceCommandController extends CommandController
      *
      * @param int $to
      * @param string $type
+     * @throws DigiCompSequenceServiceException
      */
     public function advanceCommand(int $to, string $type): void
     {
@@ -42,6 +46,9 @@ class SequenceCommandController extends CommandController
 
     /**
      * @param string[] $typesToClean
+     * @throws DigiCompSequenceServiceException
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
      */
     public function cleanSequenceInsertsCommand(array $typesToClean = [])
     {

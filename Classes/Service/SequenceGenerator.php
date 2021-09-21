@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DigiComp\Sequence\Service;
 
 use DigiComp\Sequence\Domain\Model\Insert;
+use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
 use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
@@ -37,6 +38,7 @@ class SequenceGenerator
      * @param string|object $type
      * @return int
      * @throws Exception
+     * @throws DoctrineDBALDriverException
      * @throws DoctrineDBALException
      */
     public function getNextNumberFor($type): int
@@ -71,10 +73,10 @@ class SequenceGenerator
             return false;
         } catch (DoctrineDBALException $e) {
             if (!$e->getPrevious() instanceof \PDOException) {
-                $this->logger->critical('Exception occured: ' . $e->getMessage());
+                $this->logger->critical('Exception occurred: ' . $e->getMessage());
             }
         } catch (\Exception $e) {
-            $this->logger->critical('Exception occured: ' . $e->getMessage());
+            $this->logger->critical('Exception occurred: ' . $e->getMessage());
         }
 
         return false;
@@ -98,6 +100,7 @@ class SequenceGenerator
      * @param string|object $type
      * @return int
      * @throws Exception
+     * @throws DoctrineDBALDriverException
      * @throws DoctrineDBALException
      */
     public function getLastNumberFor($type): int
@@ -107,7 +110,7 @@ class SequenceGenerator
             . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
             . ' WHERE type = :type',
             ['type' => $this->inferTypeFromSource($type)]
-        )->fetchAll(\PDO::FETCH_COLUMN)[0];
+        )->fetchOne();
     }
 
     /**
