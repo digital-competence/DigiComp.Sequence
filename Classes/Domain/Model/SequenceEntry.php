@@ -9,14 +9,11 @@ use Neos\Flow\Annotations as Flow;
 
 /**
  * @Flow\Entity
- * @ORM\Table(
- *     indexes={
- *         @ORM\Index(columns={"type"})
- *     },
- *     uniqueConstraints={
- *         @ORM\UniqueConstraint(columns={"type", "number"})
- *     }
- * )
+ * @ORM\Table(indexes={
+ *     @ORM\Index(columns={"type"})
+ * }, uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"type", "number"})
+ * })
  */
 class SequenceEntry
 {
