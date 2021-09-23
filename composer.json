@@ -62,7 +62,8 @@
             "Neos.Flow-20170125103800",
             "Neos.Flow-20170127183102",
             "DigiComp.SettingValidator-20170603120900",
-            "Neos.Flow-20180415105700"
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900"
         ]
     },
     "authors": [
