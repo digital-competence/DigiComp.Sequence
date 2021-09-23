@@ -23,7 +23,7 @@ class SequenceTest extends FunctionalTestCase
      * @throws DoctrineDBALException
      * @throws InvalidSourceException
      */
-    public function sequenceTest()
+    public function sequenceTest(): void
     {
         $sequenceGenerator = $this->objectManager->get(SequenceGenerator::class);
 
@@ -58,7 +58,7 @@ class SequenceTest extends FunctionalTestCase
      * @throws DoctrineDBALException
      * @throws InvalidSourceException
      */
-    public function setLastNumberForTest()
+    public function setLastNumberForTest(): void
     {
         $sequenceGenerator = $this->objectManager->get(SequenceGenerator::class);
 
