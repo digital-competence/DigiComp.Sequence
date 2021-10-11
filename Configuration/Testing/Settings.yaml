@@ -3,4 +3,4 @@ Neos:
     persistence:
       backendOptions:
         driver: "pdo_sqlite"
-        path: "%FLOW_PATH_DATA%/Temporary/testing.db"
+        path: "%FLOW_PATH_DATA%Temporary/testing.db"
