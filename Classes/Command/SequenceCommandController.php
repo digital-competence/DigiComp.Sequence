@@ -76,7 +76,6 @@ class SequenceCommandController extends CommandController
                 ->createQuery('DELETE FROM ' . SequenceEntry::class . ' se WHERE se.type = ?0 AND se.number < ?1')
                 ->execute([$type, $this->sequenceGenerator->getLastNumberFor($type)]);
 
-
             $this->outputLine('Deleted ' . $rowCount . ' row(s) for type "' . $type . '".');
         }
     }
