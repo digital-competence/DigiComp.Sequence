@@ -4,6 +4,7 @@ This is a very simple tool, helping in generation of gapless sequences. For this
 database of your choice.
 
 Usage is quite simple also:
+
 ```php
 /**
  * @param SequenceNumberGenerator $sequenceNumberGenerator
