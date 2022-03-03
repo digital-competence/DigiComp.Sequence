@@ -5,7 +5,7 @@
     "require": {
         "ext-pdo": "*",
         "neos/flow": "^5.3.0 || ^6.3.5",
-        "php": "~7.4.0"
+        "php": ">=7.4"
     },
     "require-dev": {
         "ext-pcntl": "*",
