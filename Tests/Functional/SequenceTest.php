@@ -61,7 +61,6 @@ class SequenceTest extends FunctionalTestCase
     public function setLastNumberForTest(): void
     {
         $sequenceGenerator = $this->objectManager->get(SequenceGenerator::class);
-
         $sequenceGenerator->setLastNumberFor($sequenceGenerator, 100);
 
         $this->assertEquals(100, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
