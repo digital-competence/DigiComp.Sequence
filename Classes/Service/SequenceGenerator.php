@@ -10,7 +10,6 @@ use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
 use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Utility\Algorithms;
 use Neos\Utility\TypeHandling;
 use Psr\Log\LoggerInterface;
 
@@ -67,7 +66,7 @@ class SequenceGenerator
         try {
             $this->entityManager->getConnection()->insert(
                 $this->entityManager->getClassMetadata(SequenceEntry::class)->getTableName(),
-                ['persistence_object_identifier' => Algorithms::generateUUID(), 'number' => $number, 'type' => $type]
+                ['type' => $type, 'number' => $number]
             );
 
             return true;

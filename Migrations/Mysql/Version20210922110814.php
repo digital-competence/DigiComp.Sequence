@@ -18,8 +18,8 @@ class Version20210922110814 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on "mysql".');
 
-        $this->addSql('CREATE TABLE digicomp_sequence_domain_model_sequenceentry (persistence_object_identifier VARCHAR(40) NOT NULL, type VARCHAR(255) NOT NULL, number INT NOT NULL, INDEX IDX_F6ADC8568CDE5729 (type), UNIQUE INDEX UNIQ_F6ADC8568CDE572996901F54 (type, number), PRIMARY KEY(persistence_object_identifier))');
-        $this->addSql('INSERT INTO digicomp_sequence_domain_model_sequenceentry (persistence_object_identifier, type, number) SELECT UUID(), i.type, i.number FROM digicomp_sequence_domain_model_insert AS i');
+        $this->addSql('CREATE TABLE digicomp_sequence_domain_model_sequenceentry (type VARCHAR(255) NOT NULL, number INT NOT NULL, PRIMARY KEY(type, number))');
+        $this->addSql('INSERT INTO digicomp_sequence_domain_model_sequenceentry (type, number) SELECT i.type, MAX(i.number) FROM digicomp_sequence_domain_model_insert AS i GROUP BY i.type');
         $this->addSql('DROP TABLE digicomp_sequence_domain_model_insert');
     }
 
@@ -33,7 +33,7 @@ class Version20210922110814 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on "mysql".');
 
         $this->addSql('CREATE TABLE digicomp_sequence_domain_model_insert (number INT NOT NULL, type VARCHAR(255) NOT NULL, INDEX type_idx (type), PRIMARY KEY(number, type))');
-        $this->addSql('INSERT INTO digicomp_sequence_domain_model_insert (number, type) SELECT se.number, se.type FROM digicomp_sequence_domain_model_sequenceentry AS se');
+        $this->addSql('INSERT INTO digicomp_sequence_domain_model_insert (number, type) SELECT MAX(se.number), se.type FROM digicomp_sequence_domain_model_sequenceentry AS se GROUP BY se.type');
         $this->addSql('DROP TABLE digicomp_sequence_domain_model_sequenceentry');
     }
 }

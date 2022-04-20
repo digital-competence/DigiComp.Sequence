@@ -27,8 +27,8 @@ class SequenceTest extends FunctionalTestCase
     {
         $sequenceGenerator = $this->objectManager->get(SequenceGenerator::class);
 
-        $this->assertEquals(0, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
-        $this->assertEquals(1, $sequenceGenerator->getNextNumberFor($sequenceGenerator));
+        self::assertEquals(0, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
+        self::assertEquals(1, $sequenceGenerator->getNextNumberFor($sequenceGenerator));
 
         $pIds = [];
         for ($i = 0; $i < 10; $i++) {
@@ -49,7 +49,7 @@ class SequenceTest extends FunctionalTestCase
             \pcntl_waitpid($pId, $status);
         }
 
-        $this->assertEquals(101, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
+        self::assertEquals(101, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
     }
 
     /**
@@ -63,7 +63,7 @@ class SequenceTest extends FunctionalTestCase
         $sequenceGenerator = $this->objectManager->get(SequenceGenerator::class);
         $sequenceGenerator->setLastNumberFor($sequenceGenerator, 100);
 
-        $this->assertEquals(100, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
-        $this->assertEquals(0, $sequenceGenerator->getLastNumberFor('otherSequence'));
+        self::assertEquals(100, $sequenceGenerator->getLastNumberFor($sequenceGenerator));
+        self::assertEquals(0, $sequenceGenerator->getLastNumberFor('otherSequence'));
     }
 }

@@ -9,7 +9,7 @@
     },
     "require-dev": {
         "ext-pcntl": "*",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "~8.5"
     },
     "autoload": {
         "psr-4": {

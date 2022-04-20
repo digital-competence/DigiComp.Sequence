@@ -8,48 +8,21 @@ use Doctrine\ORM\Mapping as ORM;
 use Neos\Flow\Annotations as Flow;
 
 /**
+ * This class is only here to set up the table. We never create an instance of this class.
+ *
  * @Flow\Entity
- * @ORM\Table(indexes={
- *     @ORM\Index(columns={"type"})
- * }, uniqueConstraints={
- *     @ORM\UniqueConstraint(columns={"type", "number"})
- * })
  */
 class SequenceEntry
 {
     /**
+     * @ORM\Id
      * @var string
      */
     protected string $type;
 
     /**
+     * @ORM\Id
      * @var int
      */
     protected int $number;
-
-    /**
-     * @param string $type
-     * @param int $number
-     */
-    public function __construct(string $type, int $number)
-    {
-        $this->type = $type;
-        $this->number = $number;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumber(): int
-    {
-        return $this->number;
-    }
 }
