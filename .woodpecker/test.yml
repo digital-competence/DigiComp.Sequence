@@ -4,8 +4,8 @@ workspace:
 
 matrix:
   FLOW_VERSION:
-    - 4.3
     - 5.3
+    - 6.3
 
 pipeline:
   functional-tests:
@@ -19,28 +19,8 @@ pipeline:
       - "sudo mkdir $NEOS_BUILD_DIR"
       - "sudo chown -R docker:docker $NEOS_BUILD_DIR"
       - "cd $NEOS_BUILD_DIR"
-      - "if [ \"$FLOW_VERSION\" = \"4.3\" ]; then sudo composer self-update --1; fi"
       - "composer create-project --no-install neos/flow-base-distribution:^$FLOW_VERSION ."
       - "composer config repositories.repo-name path /woodpecker/package"
       - "composer remove --dev neos/behat"
-      - "if [ \"$FLOW_VERSION\" = \"4.3\" ]; then composer require typo3fluid/fluid:2.4.3; fi"
       - "composer require digicomp/sequence:@dev"
-      - |
-          if [ "$FLOW_VERSION" = "4.3" ]; then 
-            echo 'Neos:
-              Flow:
-                persistence:
-                  backendOptions:
-                    dbname: "flow_functional_testing"
-                error:
-                  errorHandler:
-                    exceptionalErrors:
-                      0: "%E_USER_ERROR%"
-                      1: "%E_RECOVERABLE_ERROR%"
-                      2: ~
-                      3: "%E_NOTICE%"
-                      4: "%E_USER_WARNING%"
-                      5: "%E_USER_NOTICE%"
-                      6: "%E_STRICT%"' > Configuration/Testing/Settings.yaml
-          fi
       - "bin/phpunit --configuration Build/BuildEssentials/PhpUnit/FunctionalTests.xml Packages/Application/DigiComp.Sequence/Tests/Functional"
