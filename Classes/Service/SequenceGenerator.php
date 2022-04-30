@@ -5,7 +5,6 @@ namespace DigiComp\Sequence\Service;
 use DigiComp\Sequence\Domain\Model\Insert;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\EntityManager;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\Reflection\ReflectionService;
@@ -22,21 +21,21 @@ use Neos\Utility\TypeHandling;
 class SequenceGenerator
 {
     /**
-     * @var ObjectManager
      * @Flow\Inject
+     * @var ObjectManager
      */
     protected $entityManager;
 
     /**
-     * @var ReflectionService
      * @Flow\Inject
      * @deprecated
+     * @var ReflectionService
      */
     protected $reflectionService;
 
     /**
-     * @var SystemLoggerInterface
      * @Flow\Inject
+     * @var SystemLoggerInterface
      */
     protected $systemLogger;
 
@@ -120,7 +119,7 @@ class SequenceGenerator
      */
     protected function inferTypeFromSource($stringOrObject)
     {
-        if (is_object($stringOrObject)) {
+        if (\is_object($stringOrObject)) {
             $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
         }
         if (! $stringOrObject) {

@@ -16,16 +16,16 @@ use Neos\Flow\Annotations as Flow;
 class Insert
 {
     /**
-     * @var int
      * @Flow\Identity
      * @ORM\Id
+     * @var int
      */
     protected $number;
 
     /**
-     * @var string
      * @Flow\Identity
      * @ORM\Id
+     * @var string
      */
     protected $type;
 
@@ -68,8 +68,8 @@ class Insert
      */
     public function setType($type)
     {
-        if (is_object($type)) {
-            $type = get_class($type);
+        if (\is_object($type)) {
+            $type = \get_class($type);
         }
         $this->type = $type;
     }
