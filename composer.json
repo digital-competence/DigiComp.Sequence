@@ -1,41 +1,34 @@
 {
     "name": "digicomp/sequence",
-    "type": "neos-package",
     "description": "Sequence is a very simple database agnostic but database based sequence generator",
-    "keywords": [
-        "flow",
-        "neos",
-        "doctrine",
-        "sequence"
-    ],
-    "authors": [
-        {
-            "name": "Ferdinand Kuhl",
-            "email": "f.kuhl@digital-competence.de",
-            "homepage": "http://www.digital-competence.de",
-            "role": "Developer"
-        }
-    ],
-    "license": "MIT",
-    "homepage": "https://github.com/digicomp/DigiComp.Sequence",
+    "type": "neos-package",
     "require": {
-        "neos/flow": "~5.3 | ^6.3.5",
-        "php": "^7.4"
+        "ext-pdo": "*",
+        "neos/flow": "^6.3.5",
+        "php": ">=7.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "ext-pcntl": "*"
+        "ext-pcntl": "*",
+        "phpunit/phpunit": "~8.5"
     },
     "autoload": {
         "psr-4": {
-            "DigiComp\\Sequence\\": "Classes"
+            "DigiComp\\Sequence\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DigiComp\\Sequence\\Tests\\": "Tests/"
         }
     },
     "extra": {
+        "neos": {
+            "package-key": "DigiComp.Sequence"
+        },
         "branch-alias": {
-            "dev-version/1.x-dev": "1.1.x-dev",
+            "dev-develop": "4.0.x-dev",
             "dev-version/2.x-dev": "2.1.x-dev",
-            "dev-develop": "3.0.x-dev"
+            "dev-version/1.x-dev": "1.1.x-dev"
         },
         "applied-flow-migrations": [
             "Inwebs.Basket-201409170938",
@@ -69,7 +62,25 @@
             "Neos.Flow-20170125103800",
             "Neos.Flow-20170127183102",
             "DigiComp.SettingValidator-20170603120900",
-            "Neos.Flow-20180415105700"
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000"
         ]
-    }
+    },
+    "authors": [
+        {
+            "name": "Ferdinand Kuhl",
+            "email": "f.kuhl@digital-competence.de",
+            "homepage": "https://www.digital-competence.de",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/digital-competence/DigiComp.Sequence",
+    "keywords": [
+        "Neos",
+        "Flow",
+        "doctrine",
+        "sequence"
+    ]
 }

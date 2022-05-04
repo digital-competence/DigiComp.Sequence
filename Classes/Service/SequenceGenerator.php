@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace DigiComp\Sequence\Service;
 
-use DigiComp\Sequence\Domain\Model\Insert;
-use Doctrine\DBAL\Exception as DBALException;
+use DigiComp\Sequence\Domain\Model\SequenceEntry;
+use DigiComp\Sequence\Service\Exception\InvalidSourceException;
+use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
+use Doctrine\DBAL\Exception as DoctrineDBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Utility\TypeHandling;
 use Psr\Log\LoggerInterface;
 
 /**
- * A SequenceNumber generator working for transactional databases
+ * A sequence number generator working for transactional databases.
  *
  * Thoughts: We could make the step-range configurable, and if > 1 we could return new keys immediately for this
  * request, as we "reserved" the space between.
@@ -31,101 +33,105 @@ class SequenceGenerator
      * @Flow\Inject
      * @var LoggerInterface
      */
-    protected $systemLogger;
+    protected $logger;
 
     /**
-     * @param string|object $type
-     *
+     * @param string|object $source
      * @return int
-     * @throws Exception
-     * @throws DBALException
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
+     * @throws InvalidSourceException
      */
-    public function getNextNumberFor($type): int
+    public function getNextNumberFor($source): int
     {
-        $type = $this->inferTypeFromSource($type);
-        $count = $this->getLastNumberFor($type);
+        $type = $this->inferTypeFromSource($source);
+        $number = $this->getLastNumberFor($type);
 
-        // TODO: Check for maximal tries, or similar
-        // TODO: Let increment be configurable per type
+        // TODO: Check for maximal tries, or similar?
+        // TODO: Let increment be configurable per type?
         do {
-            $count++;
-        } while (! $this->validateFreeNumber($count, $type));
+            $number++;
+        } while (!$this->insertFor($type, $number));
 
-        return $count;
+        return $number;
     }
 
     /**
-     * @param int $count
      * @param string $type
+     * @param int $number
      * @return bool
      */
-    protected function validateFreeNumber(int $count, string $type): bool
+    protected function insertFor(string $type, int $number): bool
     {
-        $em = $this->entityManager;
         try {
-            $em->getConnection()->insert(
-                $em->getClassMetadata(Insert::class)->getTableName(),
-                ['number' => $count, 'type' => $type]
+            $this->entityManager->getConnection()->insert(
+                $this->entityManager->getClassMetadata(SequenceEntry::class)->getTableName(),
+                ['type' => $type, 'number' => $number]
             );
+
             return true;
-        } catch (\PDOException $e) {
-            return false;
-        } catch (DBALException $e) {
-            if (! $e->getPrevious() instanceof \PDOException) {
-                $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
+        } catch (\PDOException $exception) {
+        } catch (DoctrineDBALException $exception) {
+            if (!$exception->getPrevious() instanceof \PDOException) {
+                $this->logger->critical('Exception occurred: ' . $exception->getMessage());
             }
-        } catch (\Exception $e) {
-            $this->systemLogger->critical('Exception occured: ' . $e->getMessage());
+        } catch (\Exception $exception) {
+            $this->logger->critical('Exception occurred: ' . $exception->getMessage());
         }
 
         return false;
     }
 
     /**
-     * @param int $to
-     * @param string|object $type
-     *
+     * @param string|object $source
+     * @param int $number
      * @return bool
-     * @throws Exception
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
+     * @throws InvalidSourceException
      */
-    public function advanceTo(int $to, $type): bool
+    public function setLastNumberFor($source, int $number): bool
     {
-        $type = $this->inferTypeFromSource($type);
+        $type = $this->inferTypeFromSource($source);
 
-        return $this->validateFreeNumber($to, $type);
+        if ($this->getLastNumberFor($type) >= $number) {
+            return false;
+        }
+
+        return $this->insertFor($type, $number);
     }
 
     /**
-     * @param string|object $type
-     *
-     * @return int
-     * @throws Exception
-     * @throws DBALException
+     * @param string|object $source
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
+     * @throws InvalidSourceException
      */
-    public function getLastNumberFor($type): int
+    public function getLastNumberFor($source): int
     {
-        return (int) $this->entityManager->getConnection()->executeQuery(
+        return (int)$this->entityManager->getConnection()->executeQuery(
             'SELECT MAX(number) FROM '
-                . $this->entityManager->getClassMetadata(Insert::class)->getTableName()
-                . ' WHERE type = :type',
-            ['type' => $this->inferTypeFromSource($type)]
-        )->fetchAll(\PDO::FETCH_COLUMN)[0];
+            . $this->entityManager->getClassMetadata(SequenceEntry::class)->getTableName()
+            . ' WHERE type = :type',
+            ['type' => $this->inferTypeFromSource($source)]
+        )->fetchOne();
     }
 
     /**
-     * @param string|object $stringOrObject
+     * @param string|object $source
      * @return string
-     * @throws Exception
+     * @throws InvalidSourceException
      */
-    protected function inferTypeFromSource($stringOrObject): string
+    protected function inferTypeFromSource($source): string
     {
-        if (\is_object($stringOrObject)) {
-            $stringOrObject = TypeHandling::getTypeForValue($stringOrObject);
-        }
-        if (! $stringOrObject) {
-            throw new Exception('No Type given');
+        if (\is_string($source)) {
+            return $source;
         }
 
-        return $stringOrObject;
+        if (\is_object($source)) {
+            return TypeHandling::getTypeForValue($source);
+        }
+
+        throw new InvalidSourceException('Could not infer type from source.', 1632216173);
     }
 }
