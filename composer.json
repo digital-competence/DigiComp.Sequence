@@ -4,12 +4,12 @@
     "type": "neos-package",
     "require": {
         "ext-pdo": "*",
-        "neos/flow": "^5.3.0 || ^6.3.5",
-        "php": "~7.4.0"
+        "neos/flow": "^6.3.5",
+        "php": ">=7.4"
     },
     "require-dev": {
         "ext-pcntl": "*",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "~8.5"
     },
     "autoload": {
         "psr-4": {
@@ -26,7 +26,7 @@
             "package-key": "DigiComp.Sequence"
         },
         "branch-alias": {
-            "dev-develop": "3.0.x-dev",
+            "dev-develop": "4.0.x-dev",
             "dev-version/2.x-dev": "2.1.x-dev",
             "dev-version/1.x-dev": "1.1.x-dev"
         },
@@ -62,7 +62,9 @@
             "Neos.Flow-20170125103800",
             "Neos.Flow-20170127183102",
             "DigiComp.SettingValidator-20170603120900",
-            "Neos.Flow-20180415105700"
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000"
         ]
     },
     "authors": [

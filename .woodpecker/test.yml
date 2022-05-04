@@ -4,7 +4,6 @@ workspace:
 
 matrix:
   FLOW_VERSION:
-    - 5.3
     - 6.3
 
 pipeline:

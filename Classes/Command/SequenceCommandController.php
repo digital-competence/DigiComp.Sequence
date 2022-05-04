@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DigiComp\Sequence\Command;
 
-use DigiComp\Sequence\Domain\Model\Insert;
-use DigiComp\Sequence\Service\Exception as DigiCompSequenceServiceException;
+use DigiComp\Sequence\Domain\Model\SequenceEntry;
+use DigiComp\Sequence\Service\Exception\InvalidSourceException;
 use DigiComp\Sequence\Service\SequenceGenerator;
 use Doctrine\DBAL\Driver\Exception as DoctrineDBALDriverException;
 use Doctrine\DBAL\Exception as DoctrineDBALException;
@@ -14,8 +14,6 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 
 /**
- * A database agnostic SequenceNumber generator
- *
  * @Flow\Scope("singleton")
  */
 class SequenceCommandController extends CommandController
@@ -33,42 +31,52 @@ class SequenceCommandController extends CommandController
     protected $entityManager;
 
     /**
-     * Sets minimum number for sequence generator
+     * Set last number for sequence generator.
      *
-     * @param int $to
      * @param string $type
-     * @throws DigiCompSequenceServiceException
+     * @param int $number
+     * @throws DoctrineDBALDriverException
+     * @throws DoctrineDBALException
+     * @throws InvalidSourceException
      */
-    public function advanceCommand(int $to, string $type): void
+    public function setLastNumberForCommand(string $type, int $number): void
     {
-        $this->sequenceGenerator->advanceTo($to, $type);
+        if ($this->sequenceGenerator->setLastNumberFor($type, $number)) {
+            $this->outputLine('Last number successfully set.');
+        } else {
+            $this->outputLine('Failed to set last number.');
+        }
     }
 
     /**
-     * @param string[] $typesToClean
-     * @throws DigiCompSequenceServiceException
+     * Clean up sequence table.
+     *
+     * @param string[] $types
      * @throws DoctrineDBALDriverException
      * @throws DoctrineDBALException
+     * @throws InvalidSourceException
      */
-    public function cleanSequenceInsertsCommand(array $typesToClean = [])
+    public function cleanUpCommand(array $types = []): void
     {
-        $cleanArray = [];
-        if ($typesToClean === []) {
-            $results = $this->entityManager
-                ->createQuery('SELECT i.type, MAX(i.number) max_number FROM ' . Insert::class . ' i GROUP BY i.type')
-                ->getScalarResult();
-            foreach ($results as $result) {
-                $cleanArray[$result['type']] = (int)$result['max_number'];
-            }
-        } else {
-            foreach ($typesToClean as $typeToClean) {
-                $cleanArray[$typeToClean] = $this->sequenceGenerator->getLastNumberFor($typeToClean);
+        if ($types === []) {
+            foreach (
+                $this
+                    ->entityManager
+                    ->createQuery('SELECT DISTINCT(se.type) type FROM ' . SequenceEntry::class . ' se')
+                    ->execute()
+                as $result
+            ) {
+                $types[] = $result['type'];
             }
         }
-        foreach ($cleanArray as $typeToClean => $number) {
-            $this->entityManager
-                ->createQuery('DELETE FROM ' . Insert::class . ' i WHERE i.type = ?0 AND i.number < ?1')
-                ->execute([$typeToClean, $number]);
+
+        foreach ($types as $type) {
+            $rowCount = $this
+                ->entityManager
+                ->createQuery('DELETE FROM ' . SequenceEntry::class . ' se WHERE se.type = ?0 AND se.number < ?1')
+                ->execute([$type, $this->sequenceGenerator->getLastNumberFor($type)]);
+
+            $this->outputLine('Deleted ' . $rowCount . ' row(s) for type "' . $type . '".');
         }
     }
 }
