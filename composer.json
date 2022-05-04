@@ -26,7 +26,7 @@
             "package-key": "DigiComp.Sequence"
         },
         "branch-alias": {
-            "dev-develop": "3.0.x-dev",
+            "dev-develop": "4.0.x-dev",
             "dev-version/2.x-dev": "2.1.x-dev",
             "dev-version/1.x-dev": "1.1.x-dev"
         },
