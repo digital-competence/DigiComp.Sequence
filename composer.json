@@ -4,7 +4,7 @@
     "type": "neos-package",
     "require": {
         "ext-pdo": "*",
-        "neos/flow": "^6.3.5",
+        "neos/flow": "^6.3.5 | ^7.0 | ^8.0",
         "php": ">=7.4"
     },
     "require-dev": {
