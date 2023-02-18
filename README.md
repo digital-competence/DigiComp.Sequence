@@ -1,5 +1,7 @@
 # DigiComp.Sequence
 
+![Build status](https://ci.digital-competence.de/api/badges/Packages/DigiComp.FlowObjectResolving/status.svg)
+
 This is a very simple tool, helping in generation of gapless sequences. For this task it relies on key integrity of the
 database of your choice.
 
